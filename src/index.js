@@ -17,7 +17,19 @@ const pedidosRestaurante = {
 //função para adicionar um pedido 
 function adicionarPedido(){
     //capturando o numero da mesa
-    const numeroDaMesa = readline.question('Digite o numero da Mesa: ');
+    let numeroDaMesa;
+    let i = 0;
+    numeroDaMesa = readline.question('Digite o numero da Mesa de 1 a 30: ');
+
+    //valido a mesa de 1 a 30 
+    while( i == 0){
+        if(numeroDaMesa > 0 && numeroDaMesa <= 30){
+            i++;
+        }else{
+            console.log("Mesa inválida!");
+            numeroDaMesa = readline.question('Digite o numero da Mesa de 1 a 30: ');
+        }
+    }
 
     // Capturando o número de pessoas na mesa
     const numeroDePessoas = readline.questionInt('Digite o numero de pessoas na mesa: ');
@@ -36,38 +48,55 @@ function adicionarPedido(){
     pedidosRestaurante.pedidos.push(
         { numeroDaMesa : numeroDaMesa, numeroDePessoas: numeroDePessoas, valorTotal : valorTotal, metodoDePagamento : metodoDePagamento}
     );
-    
 }
-//console.log(pedidosRestaurante.pedidos.findIndex())
-adicionarPedido();
 
 function aplicarDesconto(){
     //10% se o pagamento for via PIX ou dinheiro.
     return pedidosRestaurante.pedidos[0].valorTotal * 0.9;
 }
-
-//console.log(pedidosRestaurante);
-
 //pix 1, dinheiro 2, cartão 3 
 //Faça sua lógica para aplicar o desconto apenas para PIX OU DINHEIRO
-//function fecharConta(){
-
-//}
-switch(pedidosRestaurante.pedidos[0].metodoDePagamento){
-    case 1 :
-        pedidosRestaurante.pedidos[0].valorComDesconto = aplicarDesconto();
-        valorPorPessoa = pedidosRestaurante.pedidos[0].valorComDesconto / pedidosRestaurante.pedidos[0].numeroDePessoas;
-        console.log(valorPorPessoa)
-        break;
-    case 2 :
-        pedidosRestaurante.pedidos[0].valorComDesconto = aplicarDesconto();
-        valorPorPessoa = pedidosRestaurante.pedidos[0].valorComDesconto / pedidosRestaurante.pedidos[0].numeroDePessoas;
-        break;
-    case 3 :
-        valorPorPessoa = pedidosRestaurante.pedidos[0].valorTotal / pedidosRestaurante.pedidos[0].numeroDePessoas;
-        break;    
+function fecharPedido(){
+    switch(pedidosRestaurante.pedidos[0].metodoDePagamento){
+        case 1 :
+            pedidosRestaurante.pedidos[0].valorComDesconto = aplicarDesconto();
+            valorPorPessoa = pedidosRestaurante.pedidos[0].valorComDesconto / pedidosRestaurante.pedidos[0].numeroDePessoas;
+            console.log(valorPorPessoa.toFixed(2))
+            break;
+        case 2 :
+            pedidosRestaurante.pedidos[0].valorComDesconto = aplicarDesconto();
+            valorPorPessoa = pedidosRestaurante.pedidos[0].valorComDesconto / pedidosRestaurante.pedidos[0].numeroDePessoas;
+            break;
+        case 3 :
+            valorPorPessoa = pedidosRestaurante.pedidos[0].valorTotal / pedidosRestaurante.pedidos[0].numeroDePessoas;
+            break;    
+    }
 }
 
 // Exibindo os resultados
+function exibirResultados(){
+    console.log(`\na mesa ${pedidosRestaurante.pedidos[0].numeroDaMesa} tem ${ pedidosRestaurante.pedidos[0].numeroDePessoas} pessoas, cada uma deve pagar ${valorPorPessoa.toFixed(2)} Reais\n`);
+}
 
-console.log(`a mesa ${pedidosRestaurante.pedidos[0].numeroDaMesa} tem ${ pedidosRestaurante.pedidos[0].numeroDePessoas} pessoas, cada uma deve pagar ${valorPorPessoa} Reais`);
+//menu para escolha de função
+function menu(){
+    i =0;
+    while(i == 0){
+        console.log("1 iniciar pedido\n2 fechar o pedido\n3 exibir resultados\n4 Sair");
+        let opcao = readline.question('Digite a opção de menu escolhida: ');
+        switch(opcao){
+            case "1" :console.log("aqui")
+                adicionarPedido();
+                break;
+            case "2" :
+                fecharPedido()
+                break;
+            case "3":
+                exibirResultados();
+                break;
+            default :
+                i +=1;    
+        }
+    }
+}
+menu();
