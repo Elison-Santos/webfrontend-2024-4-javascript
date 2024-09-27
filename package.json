@@ -11,5 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ciclo-2-javascript-aula-2": "file:",
+    "readline-sync": "^1.4.10"
   }
 }
