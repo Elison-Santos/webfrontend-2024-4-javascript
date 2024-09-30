@@ -8,10 +8,9 @@ let valorPorPessoa;
   
 //função para adicionar um pedido 
 function adicionarPedido(){
-    let mesa = selecionarMesa();
     //capturando o numero da mesa
+    let mesa = selecionarMesa();
     let i = 0;
-
     // Capturando o número de pessoas na mesa
     const numeroDePessoas = readline.questionInt('Digite o numero de pessoas na mesa de 1 a 6: ');
     while( i == 0){
@@ -23,11 +22,7 @@ function adicionarPedido(){
         }
     }
 
-    //apago a inicialização que fiz com 0 em tudo 
-    //pedidosRestaurante.pedidos = pedidosRestaurante.pedidos.filter(function(jsonObject) {
-        //jsonObject["numeroDePessoas"] == 0;
-    //});
-
+    //adiciono uma numeroMesa e numeroDePessoas novo ao obj
     pedidosRestaurante.pedidos.push(
         { numeroDaMesa : mesa, numeroDePessoas: numeroDePessoas} 
     );
@@ -69,7 +64,6 @@ function aplicarDesconto(){
 //Faça sua lógica para aplicar o desconto apenas para PIX OU DINHEIRO
 function fecharPedido(){
     let index  = capturarTotal();
-    console.log(index);
     
     pedidosRestaurante.pedidos[index].metodoDePagamento = readline.questionInt('Qual e o metodo de pagamento (1 - PIX, 2 - dinheiro ou  3 - cartao)? ');
     switch(pedidosRestaurante.pedidos[index].metodoDePagamento){
