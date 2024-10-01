@@ -2,23 +2,32 @@
 const readline = require('readline-sync');
 //variávei globais
 const pedidosRestaurante = {
-    pedidos: []
+    pedidos: [],
+    estoque: [],
+    usuarios: []
 };
 let valorPorPessoa;
-  
+let contador;
+
+// variáveis com Strings
+textNumeroPessoas = 'Digite o numero de pessoas na mesa de 1 a 6: ';
+textNumeroMesa = 'Digite o numero da Mesa de 1 a 15: ';
+textValorTotal = 'Digite o valor total da conta: ';
+textMetodoPagamento = 'Qual e o metodo de pagamento (1 - PIX, 2 - dinheiro ou  3 - cartao)? ';
+
 //função para adicionar um pedido 
 function adicionarPedido(){
     //capturando o numero da mesa
     let mesa = selecionarMesa();
-    let i = 0;
+    contador = 0;
     // Capturando o número de pessoas na mesa
-    const numeroDePessoas = readline.questionInt('Digite o numero de pessoas na mesa de 1 a 6: ');
-    while( i == 0){
+    const numeroDePessoas = readline.questionInt(textNumeroPessoas);
+    while( contador == 0){
         if(numeroDePessoas > 0 && numeroDePessoas <= 6){
-            i++;
+            contador++;
         }else{
             console.log("numero de pessoas inválida!");
-            numeroDePessoas = readline.question('Digite o numero de pessoas na mesa de 1 a 6: ');
+            numeroDePessoas = readline.question(textNumeroPessoas);
         }
     }
 
@@ -31,16 +40,16 @@ function adicionarPedido(){
 
 function selecionarMesa(){
     let numeroDaMesa;
-    let i = 0;
-    numeroDaMesa = readline.question('Digite o numero da Mesa de 1 a 15: ');
+    contador = 0;
+    numeroDaMesa = readline.question(textNumeroMesa);
 
     //valido a mesa de 1 a 30 
-    while( i == 0){
+    while( contador == 0){
         if(numeroDaMesa > 0 && numeroDaMesa <= 15){
-            i++;
+            contador++;
         }else{
             console.log("Mesa inválida!");
-            numeroDaMesa = readline.question('Digite o numero da Mesa de 1 a 15: ');
+            numeroDaMesa = readline.question(textNumeroMesa);
         }
     }
     return numeroDaMesa;
@@ -50,7 +59,7 @@ function capturarTotal(){
     let mesa = selecionarMesa();
     let index = pedidosRestaurante.pedidos.findIndex(pedidos => pedidos.numeroDaMesa === mesa);
         //Capturando o valor da conta
-        const valorTotal= readline.questionFloat('Digite o valor total da conta: ');
+        const valorTotal= readline.questionFloat(textValorTotal);
         pedidosRestaurante.pedidos[index].valorTotal = valorTotal;
         console.log(pedidosRestaurante.pedidos.find(pedidos => pedidos.numeroDaMesa === mesa));
         return index;
@@ -65,7 +74,7 @@ function aplicarDesconto(){
 function fecharPedido(){
     let index  = capturarTotal();
     
-    pedidosRestaurante.pedidos[index].metodoDePagamento = readline.questionInt('Qual e o metodo de pagamento (1 - PIX, 2 - dinheiro ou  3 - cartao)? ');
+    pedidosRestaurante.pedidos[index].metodoDePagamento = readline.questionInt(textMetodoPagamento);
     switch(pedidosRestaurante.pedidos[index].metodoDePagamento){
         case 1 :
             pedidosRestaurante.pedidos[index].valorComDesconto = aplicarDesconto();
@@ -85,16 +94,17 @@ function fecharPedido(){
 
 // Exibindo os resultados
 function exibirResultados(){
-    let index = pedidosRestaurante.pedidos.findIndex(pedidos => pedidos.numeroDaMesa === selecionarMesa());
+    const index = pedidosRestaurante.pedidos.findIndex(pedidos => pedidos.numeroDaMesa === selecionarMesa());
+    //
     console.log(`\na mesa ${pedidosRestaurante.pedidos[index].numeroDaMesa} tem ${ pedidosRestaurante.pedidos[index].numeroDePessoas} 
-        pessoas, cada uma deve pagar ${valorPorPessoa.toFixed(index)} Reais, valor total de R$${pedidosRestaurante.pedidos[index].valorTotal}\n`);
+        pessoas, cada uma deve pagar ${valorPorPessoa.toFixed(2)} Reais, valor total de R$${pedidosRestaurante.pedidos[index].valorTotal}\n`);
 }
 
 //menu para escolha de função
 function menu(){
-    i =0;
-    while(i == 0){
-        console.log("~~~~~~~~~~~~~~~~~~~~ Restaurante do Elison ~~~~~~~~~~~~~~~~~~~~")
+    let finalizar = true;
+    while(finalizar == true){
+        console.log("~~~~~~~~~~~~~~~~~~~~ Restaurante do Elison ~~~~~~~~~~~~~~~~~~~~");
         console.log("1 iniciar pedido\n2 fechar o pedido\n3 exibir resultados\n4 Sair");
         let opcao = readline.question('Digite a opcao de menu escolhida: ');
         switch(opcao){
@@ -108,7 +118,7 @@ function menu(){
                 exibirResultados();
                 break;
             default :
-                i +=1;    
+                finalizar = false;    
         }
     }
 }
