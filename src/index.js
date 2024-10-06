@@ -92,6 +92,14 @@ function fecharPedido(){
     console.log( pedidosRestaurante.pedidos);
 }
 
+//função para percorrer o obj
+function percorrerObj(){
+    pedidosRestaurante.pedidos.forEach((pedido) =>{
+        console.log(pedido);
+    })
+    return objeto;
+}
+
 // Exibindo os resultados
 function exibirResultados(){
     const index = pedidosRestaurante.pedidos.findIndex(pedidos => pedidos.numeroDaMesa === selecionarMesa());
@@ -105,7 +113,7 @@ function menu(){
     let finalizar = true;
     while(finalizar == true){
         console.log("~~~~~~~~~~~~~~~~~~~~ Restaurante do Elison ~~~~~~~~~~~~~~~~~~~~");
-        console.log("1 iniciar pedido\n2 fechar o pedido\n3 exibir resultados\n4 Sair");
+        console.log("1 iniciar pedido\n2 fechar o pedido\n3 exibir resultado\n4 sair");
         let opcao = readline.question('Digite a opcao de menu escolhida: ');
         switch(opcao){
             case "1" :
@@ -123,3 +131,4 @@ function menu(){
     }
 }
 menu();
+console.log(JSON.stringify(pedidosRestaurante.pedidos));
