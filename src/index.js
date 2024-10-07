@@ -21,13 +21,13 @@ function adicionarPedido(){
     let mesa = selecionarMesa();
     contador = 0;
     // Capturando o número de pessoas na mesa
-    const numeroDePessoas = readline.questionInt(textNumeroPessoas);
+    let numeroDePessoas = readline.questionInt(textNumeroPessoas);
     while( contador == 0){
         if(numeroDePessoas > 0 && numeroDePessoas <= 6){
             contador++;
         }else{
             console.log("numero de pessoas inválida!");
-            numeroDePessoas = readline.question(textNumeroPessoas);
+            numeroDePessoas = readline.questionInt(textNumeroPessoas);
         }
     }
 
@@ -36,12 +36,13 @@ function adicionarPedido(){
         { numeroDaMesa : mesa, numeroDePessoas: numeroDePessoas} 
     );
     console.log(pedidosRestaurante);
+    return pedidosRestaurante;
 }
 
 function selecionarMesa(){
     let numeroDaMesa;
     contador = 0;
-    numeroDaMesa = readline.question(textNumeroMesa);
+    numeroDaMesa = readline.questionInt(textNumeroMesa);
 
     //valido a mesa de 1 a 30 
     while( contador == 0){
@@ -49,7 +50,7 @@ function selecionarMesa(){
             contador++;
         }else{
             console.log("Mesa inválida!");
-            numeroDaMesa = readline.question(textNumeroMesa);
+            numeroDaMesa = readline.questionInt(textNumeroMesa);
         }
     }
     return numeroDaMesa;
@@ -97,7 +98,7 @@ function percorrerObj(){
     pedidosRestaurante.pedidos.forEach((pedido) =>{
         console.log(pedido);
     })
-    return objeto;
+    return pedidosRestaurante.pedidos.length;
 }
 
 // Exibindo os resultados
@@ -114,7 +115,7 @@ function menu(){
     while(finalizar == true){
         console.log("~~~~~~~~~~~~~~~~~~~~ Restaurante do Elison ~~~~~~~~~~~~~~~~~~~~");
         console.log("1 iniciar pedido\n2 fechar o pedido\n3 exibir resultado\n4 sair");
-        let opcao = readline.question('Digite a opcao de menu escolhida: ');
+        let opcao = readline.questionInt('Digite a opcao de menu escolhida: ');
         switch(opcao){
             case "1" :
                 adicionarPedido();
@@ -132,3 +133,9 @@ function menu(){
 }
 menu();
 console.log(JSON.stringify(pedidosRestaurante.pedidos));
+
+module.exports = {
+    adicionarPedido,
+    selecionarMesa,
+    percorrerObj,
+   };
