@@ -117,13 +117,13 @@ function menu(){
         console.log("1 iniciar pedido\n2 fechar o pedido\n3 exibir resultado\n4 sair");
         let opcao = readline.questionInt('Digite a opcao de menu escolhida: ');
         switch(opcao){
-            case "1" :
+            case 1 :
                 adicionarPedido();
                 break;
-            case "2" :
+            case 2 :
                 fecharPedido()
                 break;
-            case "3":
+            case 3:
                 exibirResultados();
                 break;
             default :
